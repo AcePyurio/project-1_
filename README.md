@@ -182,4 +182,63 @@ Running `docker-compose up` builds the Docker images and starts the containers. 
     - Status Code: 403
     - Body: `{ "error": "Forbidden" }`
 
+## Testing Endpoints with Postman
+
+### Testing the `/login` Endpoint
+To test the `/login` endpoint in Postman, follow these steps:
+
+1. Open Postman and create a new request.
+2. Set the request method to `GET`.
+3. Enter the URL of your server followed by `/login` (e.g., `http://localhost:8010/login`).
+4. If your login endpoint requires Basic authentication, provide credentials in the "Authorization" tab using the "Basic Auth" option.
+5. Click on the "Send" button to make the request.
+
+### Testing the `/authenticate` and `/get_all_health_record` Endpoints
+To test the `/authenticate` endpoint for user authentication using Bearer authentication, and subsequently test the `/get_all_health_record` endpoint, follow these steps in Postman:
+
+1. Open Postman and create a new request.
+2. Set the request method to `GET`.
+3. Enter the URL of your server followed by `/authenticate` (e.g., `http://localhost:8010/authenticate`).
+4. Provide a valid JWT token in the "Authorization" tab using the "Bearer Token" option.
+5. Click on the "Send" button to make the request.
+
+Once authenticated, you can proceed to test the `/get_all_health_record` endpoint by following the same steps.
+
+### Testing the `/register` Endpoint
+To test the `/register` endpoint in Postman, follow these steps:
+
+1. Open Postman and create a new request.
+2. Set the request method to `POST`.
+3. Enter the URL of your server followed by `/register` (e.g., `http://localhost:8010/register`).
+4. Provide the required parameters for user registration in the "Body" tab using the "raw" option with JSON format.
+5. Click on the "Send" button to make the request.
+
+### Testing the `/add_health_record` Endpoint
+To test the `/add_health_record` endpoint in Postman, follow these steps:
+
+1. Open Postman and create a new request.
+2. Set the request method to `POST`.
+3. Enter the URL of your server followed by `/add_health_record` (e.g., `http://localhost:8010/add_health_record`).
+4. Provide a valid JWT token in the "Headers" tab with the key `Authorization`.
+5. Provide the required parameters for adding a health record in the "Body" tab using the "raw" option with JSON format.
+6. Click on the "Send" button to make the request.
+
+### Testing the `/updateuser` Endpoint
+To test the `/updateuser` endpoint in Postman, follow these steps:
+
+1. Open Postman and create a new request.
+2. Set the request method to `POST`.
+3. Enter the URL of your server followed by `/updateuser` (e.g., `http://localhost:8010/updateuser`).
+4. Provide a valid JWT token in the "Headers" tab with the key `Authorization`.
+5. Provide the data you want to update for the user in the "Body" tab using the "raw" option with JSON format.
+6. Click on the "Send" button to make the request.
+
+### Testing the `/get_all_health_record` Endpoint
+To test the `/get_all_health_record` endpoint in Postman, follow these steps:
+
+1. Open Postman and create a new request.
+2. Set the request method to `GET`.
+3. Enter the URL of your server followed by `/get_all_health_record` (e.g., `http://localhost:8010/get_all_health_record`).
+4. Provide a valid JWT token in the "Headers" tab with the key `Authorization`.
+5. Click on the "Send" button to make the request.
 
