@@ -1,3 +1,5 @@
+# Secure Cloud-Based Personal Health Record System
+
 This project utilizes a microservices architecture, an innovative architectural style that organizes an application into a series of small, self-contained services, each dedicated to a particular business function. These services operate independently and are interconnected through clearly defined APIs, typically employing lightweight protocols like HTTP/REST for communication. This approach enhances scalability, flexibility, and maintainability, allowing for seamless development, deployment, and management of the system's components.
 
 # Agile Process Documentation
