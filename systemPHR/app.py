@@ -469,16 +469,14 @@ class RequestHandler(BaseHTTPRequestHandler):
                         cursor.close()
                         connection.close()
 
-                        # Respond with success message
                         self._set_headers()
                         self.wfile.write(json.dumps({"message": f"{field_name} value deleted successfully"}).encode('utf-8'))
                         return
 
-            # Authorization failed
             self._set_headers(401)
             self.wfile.write(json.dumps({"error": "Authorization failed"}).encode('utf-8'))
         elif self.path == '/deleteuser':
-            # Get the user ID from the token
+        
             if 'Authorization' in self.headers:
                 auth_header = self.headers['Authorization']
                 if auth_header.startswith('Bearer '):
@@ -487,7 +485,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
                         user_id = payload['user_id']
 
-                        # Delete the user data
+                
                         connection = connect_to_database()
                         cursor = connection.cursor()
 
@@ -498,16 +496,16 @@ class RequestHandler(BaseHTTPRequestHandler):
                         cursor.close()
                         connection.close()
 
-                        # Respond with success message
+                      
                         self._set_headers()
                         self.wfile.write(json.dumps({"message": "User data deleted successfully"}).encode('utf-8'))
                         return
 
-            # Authorization failed
+        
             self._set_headers(401)
             self.wfile.write(json.dumps({"error": "Authorization failed"}).encode('utf-8'))
         else:
-            # Handle unauthorized access to other endpoints
+           
             self._set_headers(403)
             self.wfile.write(json.dumps({"error": "Forbidden"}).encode('utf-8'))
 
