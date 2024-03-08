@@ -11,7 +11,7 @@ from http import HTTPStatus
 
 
 # Secret key for JWT token signing
-SECRET_KEY = "your_secret_key_here"
+SECRET_KEY = "secret_key_here"
 
 def connect_to_database():
     return mysql.connector.connect(
@@ -190,14 +190,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             self._set_headers(401)
             self.wfile.write(json.dumps({"error": "Authorization failed"}).encode('utf-8'))
         
-        # Check if the path is for the get_all_health_record endpoint
         if self.path == '/get_all_health_record':
             # Get the authorization header
             auth_header = self.headers.get('Authorization')
 
-            # Check if the request uses Bearer authentication
+
             if auth_header and auth_header.startswith('Bearer '):
-                # Extract the token from the authorization header
+              
                 _, token = auth_header.split(' ', 1)
 
                 # Authenticate the user using Bearer authentication
@@ -235,30 +234,29 @@ class RequestHandler(BaseHTTPRequestHandler):
                             }
                             serialized_records.append(serialized_record)
 
-                        # Respond with the user's health records
                         self._set_headers()
                         self.wfile.write(json.dumps(serialized_records).encode('utf-8'))
                         return
 
                     except jwt.ExpiredSignatureError:
-                        # Token has expired
+             
                         self._set_headers(401)
                         self.wfile.write(json.dumps({"error": "Token has expired"}).encode('utf-8'))
                         return
                     except jwt.InvalidTokenError:
-                        # Invalid token
+              
                         self._set_headers(401)
                         self.wfile.write(json.dumps({"error": "Invalid token"}).encode('utf-8'))
                         return
 
                 else:
-                    # Authorization failed
+                
                     self._set_headers(401)
                     self.wfile.write(json.dumps({"error": "Authorization failed"}).encode('utf-8'))
                     return
 
             else:
-                # Authorization header missing
+        
                 self._set_headers(401)
                 self.wfile.write(json.dumps({"error": "Authorization header missing"}).encode('utf-8'))
                 return
@@ -343,15 +341,15 @@ class RequestHandler(BaseHTTPRequestHandler):
                     date = user_data['date']
                     diagnosis = user_data['diagnosis']
                     treatment = user_data['treatment']
-                    # Extract additional fields
+    
                     medical_condition = user_data.get('medicalcondition', None)
                     family_history = user_data.get('familyhistory', None)
                     healthcare_provider = user_data.get('healthcareprovider', None)
 
-                    # Add the health record to the database
+                   
                     add_health_record(patient_id, date, diagnosis, treatment, medical_condition, family_history, healthcare_provider)
 
-                     # Get the added health record from the database
+                
                     new_record = {
                         'patientID': patient_id,
                         'date': date,
@@ -362,24 +360,23 @@ class RequestHandler(BaseHTTPRequestHandler):
                         'healthcareprovider': healthcare_provider
                     }
                     
-                    # Respond with success message and the added health record
+                 
                     response_data = {
                         "message": "Health record added successfully",
                         "record": new_record
                     }
 
-                    # Respond with success message
                     self._set_headers()
                     self.wfile.write(json.dumps(response_data).encode('utf-8'))
-                    #self.wfile.write(json.dumps({"message": "Health record added successfully"}).encode('utf-8'))
+             
                     return
                 else:
-                    # Required parameters are missing, respond with error message
+                
                     self._set_headers(400)
                     self.wfile.write(json.dumps({"error": "Missing required parameters"}).encode('utf-8'))
                     return
             else:
-                # Invalid authorization header, respond with error message
+                
                 self._set_headers(401)
                 self.wfile.write(json.dumps({"error": "Invalid authorization header"}).encode('utf-8'))
                 return
@@ -388,34 +385,34 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     # Handle PUT requests
     def do_PUT(self):
-        # Get the length of the request body
+        
         content_length = int(self.headers['Content-Length'])
-        # Read the request body
+       
         put_data = self.rfile.read(content_length)
-        # Parse the JSON data
+      
         user_data = json.loads(put_data.decode('utf-8'))
         
-        # Debugging: Print the parsed user data
+       
         print("Received User Data:", user_data)
 
-        # Check if the path is for updating user data
+      
         if self.path == '/updateuser':
-            # Check if user is authenticated with a valid token
+            
             if 'Authorization' in self.headers:
                 auth_header = self.headers['Authorization']
                 if auth_header.startswith('Bearer '):
                     _, token = auth_header.split(' ', 1)
                     if bearer_authenticate(token):
-                        # Extract user ID from token
+                       
                         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
                         user_id = payload['user_id']
 
-                        # Update user data
+                        
                         if user_data:
                             connection = connect_to_database()
                             cursor = connection.cursor()
 
-                            # Construct the SQL query to update user data
+                          
                             query = "UPDATE users SET "
                             query_params = []
                             for key, value in user_data.items():
@@ -429,27 +426,25 @@ class RequestHandler(BaseHTTPRequestHandler):
                             cursor.execute(query, tuple(query_params))
                             connection.commit()
 
-                            # Close cursor and connection
+                   
                             cursor.close()
                             connection.close()
 
-                            # Respond with success message
                             self._set_headers()
                             self.wfile.write(json.dumps({"message": "User data updated successfully"}).encode('utf-8'))
                             return
 
-            # Authorization failed
+      
             self._set_headers(401)
             self.wfile.write(json.dumps({"error": "Authorization failed"}).encode('utf-8'))
 
     # Handle DELETE requests
     def do_DELETE(self):
-        # Check if the path is for deleting user data
+        
         if self.path.startswith('/deleteuserinfo'):
-            # Extract the field name from the request path
+           
             field_name = self.path.split('/')[-1]
 
-            # Get the user ID from the token
             if 'Authorization' in self.headers:
                 auth_header = self.headers['Authorization']
                 if auth_header.startswith('Bearer '):
@@ -458,7 +453,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
                         user_id = payload['user_id']
 
-                        # Update the specified field value to null/empty
+                        
                         connection = connect_to_database()
                         cursor = connection.cursor()
 
