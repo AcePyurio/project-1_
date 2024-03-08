@@ -44,6 +44,18 @@ Michael Nguyen sees the PHR system as a valuable tool to streamline data managem
 - **Password Hashing:** User passwords are hashed using SHA-256 algorithm with a unique salt for enhanced security.
 
 
+### Containerized Project with Docker Compose
+
+The project is built and run within Docker using Docker Compose. Docker Compose allows for defining and running multi-container Docker applications with a single configuration file (`docker-compose.yml`).
+
+The `docker-compose.yml` file specifies two services: `pythonapp` and `mysql`.
+
+- The `pythonapp` service uses a Dockerfile in the `./systemPHR/` directory to build the Python application image.
+- The `mysql` service uses a Dockerfile in the `./mysql/database/` directory to build the MySQL database image and initializes it with a SQL file.
+
+Running `docker-compose up` builds the Docker images and starts the containers. The Python application is accessible at `http://localhost:8010`, interacting with the MySQL database container for data storage.
+
+
 # API Documentation
 
 ## Endpoints
@@ -170,29 +182,4 @@ Michael Nguyen sees the PHR system as a valuable tool to streamline data managem
     - Status Code: 403
     - Body: `{ "error": "Forbidden" }`
 
-# Development Process Report
-
-## Introduction
-This report provides an overview of the development process for the Personal Health Record (PHR) system, highlighting key stages, methodologies, and technologies employed to create a robust and user-friendly healthcare application.
-
-## Project Scope
-The PHR system aims to revolutionize the management and accessibility of health records for individuals and healthcare providers. By leveraging cloud-based technology and microservices architecture, the system ensures secure storage, easy retrieval, and seamless sharing of health information.
-
-## Development Methodology
-The development of the PHR system followed an agile approach, emphasizing collaboration, adaptability, and iterative progress. Agile methodologies, including Scrum and Kanban, facilitated continuous integration and delivery, allowing for frequent updates and feedback loops throughout the development lifecycle.
-
-## Architecture Overview
-The PHR system is built upon a microservices architecture, where each component focuses on specific functionalities such as user authentication, health record management, and authorization. This decoupled architecture promotes scalability, flexibility, and resilience, enabling efficient development and maintenance of individual services.
-
-## Technologies Used
-The development stack for the PHR system includes Python for backend services, MySQL for data storage, and JWT for authentication and authorization. Additionally, HTTP/REST protocols were employed for communication between microservices, ensuring interoperability and compatibility.
-
-## Security Measures
-To ensure the confidentiality, integrity, and availability of health data, the PHR system implements robust security measures. These include encryption techniques for sensitive data, secure authentication mechanisms using JWT tokens, and role-based access control (RBAC) to enforce access restrictions based on user roles.
-
-## Testing and Quality Assurance
-Throughout the development process, rigorous testing procedures were employed to validate the functionality, performance, and reliability of the PHR system. Unit tests, integration tests, and end-to-end tests were conducted to identify and address any issues promptly, ensuring a high-quality user experience.
-
-## Conclusion
-The development of the PHR system represents a collaborative effort to create a modern, efficient, and secure healthcare application. By adopting agile methodologies, leveraging microservices architecture, and prioritizing security and quality, the PHR system aims to empower users with control over their health information, ultimately leading to better healthcare outcomes and improved patient care.
 
